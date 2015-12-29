@@ -12,6 +12,8 @@ public class OrderService implements IOrderService
 {
 	public static final String SALESTAXES_DESCRIPTION_FORMAT = "Sales Taxes: %s";
 	public static final String TOTAL_DESCRIPTION_FORMAT = "Total: %s";
+	
+	public static final BigDecimal ROUNDING_FACTOR = BigDecimal.valueOf(0.05);
 
 	public BigDecimal evaluateTotalTaxes(OrderModel order) throws OrderEntryException
 	{
@@ -44,14 +46,36 @@ public class OrderService implements IOrderService
 		BigDecimal totalTaxes = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
 		if(!entry.isTaxExempt())
 		{
-			totalTaxes = totalTaxes.add(evaluateNetPrice(entry).multiply(OrderEntryModel.BASIC_TAX_RATE));
+			BigDecimal amount = evaluateNetPrice(entry).multiply(OrderEntryModel.BASIC_TAX_RATE);
+			totalTaxes = totalTaxes.add(roundTax(amount));
 		}
 		if(entry.isImported())
 		{
-			totalTaxes = totalTaxes.add(evaluateNetPrice(entry).multiply(OrderEntryModel.IMPORT_TAX_RATE));
+			BigDecimal amount = evaluateNetPrice(entry).multiply(OrderEntryModel.IMPORT_TAX_RATE);
+			totalTaxes = totalTaxes.add(roundTax(amount));
 		}
 		
 		return totalTaxes;
+	}
+	
+	private BigDecimal roundTax(BigDecimal tax)
+	{
+		/**	Rounds tax to the nearest 0.05
+		
+		 Example: 5% of 11.25 = 0.5625
+		 0.55 <= 0.5625 <= 0.60
+		 
+		 Divide all by 0.05:
+		 11 <= 11.25 <= 12
+		 
+		 Round to the nearest integer:
+		 11.25 -> 11
+		 
+		 Then multiply again by 0.05
+		 11 * 0.05 = 0.55
+		
+		 **/	
+		return tax.divide(ROUNDING_FACTOR).setScale(0, RoundingMode.HALF_UP).multiply(ROUNDING_FACTOR).setScale(2, RoundingMode.HALF_UP);
 	}
 	
 	public BigDecimal evaluateNetPrice(OrderEntryModel entry) throws OrderEntryException
