@@ -37,9 +37,9 @@ public class OrderServiceUnitTest {
 	private static final BigDecimal NET_PRICE = PRICE_PER_UNIT.multiply(BigDecimal.valueOf(QUANTITY));
 	
 	private static final BigDecimal NO_TAXES = BigDecimal.ZERO.setScale(2);
-	private static final BigDecimal ONLY_IMPORT_TAX = NET_PRICE.multiply(OrderEntryModel.IMPORT_TAX_RATE);
-	private static final BigDecimal ONLY_BASIC_TAX = NET_PRICE.multiply(OrderEntryModel.BASIC_TAX_RATE);
-	private static final BigDecimal BOTH_TAXES = ONLY_IMPORT_TAX.add(ONLY_BASIC_TAX);
+	private static final BigDecimal ONLY_IMPORT_TAX = NET_PRICE.multiply(OrderEntryModel.IMPORT_TAX_RATE).setScale(2);
+	private static final BigDecimal ONLY_BASIC_TAX = NET_PRICE.multiply(OrderEntryModel.BASIC_TAX_RATE).setScale(2);
+	private static final BigDecimal BOTH_TAXES = ONLY_IMPORT_TAX.add(ONLY_BASIC_TAX).setScale(2);
 
 	private static final BigDecimal GROSS_PRICE = NET_PRICE.add(BOTH_TAXES);
 	
