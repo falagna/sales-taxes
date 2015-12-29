@@ -1,14 +1,12 @@
 package it.alagna.salestaxes.service.impl;
 
-import static org.junit.Assert.*;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
-
 import it.alagna.salextaxes.exception.OrderEntryException;
 import it.alagna.salextaxes.model.OrderEntryModel;
 import it.alagna.salextaxes.model.OrderModel;
 import it.alagna.salextaxes.service.impl.OrderService;
+
+import java.math.BigDecimal;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;

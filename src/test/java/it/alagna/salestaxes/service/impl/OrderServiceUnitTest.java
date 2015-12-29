@@ -46,6 +46,14 @@ public class OrderServiceUnitTest {
 	private static final BigDecimal NEGATIVE_PRICE = BigDecimal.valueOf(-10.00).setScale(2);
 	private static final int NEGATIVE_QUANTITY = -2;
 
+	private static final BigDecimal RAW_TAX_1 = BigDecimal.valueOf(2.244);
+	private static final BigDecimal ROUNDED_TAX_1 = BigDecimal.valueOf(2.25).setScale(2);
+	
+	private static final BigDecimal RAW_TAX_2 = BigDecimal.valueOf(2.392);
+	private static final BigDecimal ROUNDED_TAX_2 = BigDecimal.valueOf(2.40).setScale(2);
+	
+	private static final BigDecimal RAW_TAX_3 = BigDecimal.valueOf(2.561);
+	private static final BigDecimal ROUNDED_TAX_3 = BigDecimal.valueOf(2.60).setScale(2);
 
 	@Spy
 	private OrderService orderService;
@@ -400,5 +408,35 @@ public class OrderServiceUnitTest {
 		}
 	
 		fail("Should have thrown an OrderEntryException");
+	}
+	
+	@Test
+	public void testRoundTax1()
+	{
+		// WHEN
+		BigDecimal result = orderService.roundTax(RAW_TAX_1);
+		
+		// THEN
+		assertEquals(ROUNDED_TAX_1, result);
+	}
+	
+	@Test
+	public void testRoundTax2()
+	{
+		// WHEN
+		BigDecimal result = orderService.roundTax(RAW_TAX_2);
+		
+		// THEN
+		assertEquals(ROUNDED_TAX_2, result);
+	}
+	
+	@Test
+	public void testRoundTax3()
+	{
+		// WHEN
+		BigDecimal result = orderService.roundTax(RAW_TAX_3);
+		
+		// THEN
+		assertEquals(ROUNDED_TAX_3, result);
 	}
 }

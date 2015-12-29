@@ -13,4 +13,7 @@ public interface IOrderService {
 	BigDecimal evaluateTotalTaxes(OrderEntryModel entry) throws OrderEntryException;
 	BigDecimal evaluateNetPrice(OrderEntryModel entry) throws OrderEntryException;
 	BigDecimal evaluateTotalPrice(OrderEntryModel entry) throws OrderEntryException;
+	BigDecimal roundTax(BigDecimal tax);
+	String toInputString(OrderModel order) throws OrderEntryException;
+	String toOutputString(OrderModel order) throws OrderEntryException;
 }
